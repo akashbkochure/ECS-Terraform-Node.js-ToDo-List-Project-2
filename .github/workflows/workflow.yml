@@ -1,7 +1,6 @@
----
 name: "workflow"
 
-'on':
+on:
   push:
     branches:
       - main
@@ -66,18 +65,19 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition service --query taskDefinition > task-definition.json
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: application  # edit me
-          image: ${{ steps.build-image.outputs.image }}
+      - name: Update task definition
+        run: |
+          sed -i "s|<IMAGE_NAME>|${{ steps.build-image.outputs.image }}|" task-definition.json
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      - name: Register new task definition
+        id: register-task-def
+        run: |
+          aws ecs register-task-definition --cli-input-json file://task-definition.json
+
+      - name: Update ECS service
+        uses: aws-actions/amazon-ecs-deploy-service@v1
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ secrets.ECS_SERVICE }}
+          service-name: ${{ secrets.ECS_SERVICE }}
           cluster: ${{ secrets.ECS_CLUSTER }}
+          task-definition: ${{ steps.register-task-def.outputs.task-definition.family }}:${{ steps.register-task-def.outputs.task-definition.revision }}
           wait-for-service-stability: true
