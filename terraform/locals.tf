@@ -16,8 +16,8 @@ locals {
     internal = false
     target_group = {
       name     = "tf-alb-tg"
-      port     = 80
-      protocol = "HTTP"
+      port     = 8000
+      protocol = "TCP"
     }
   }
   lb = merge(local.lb_defaults, var.lb_values)
@@ -31,7 +31,7 @@ locals {
   container_defaults = {
     name  = "application"
     image = "node"
-    ports = [80]
+    ports = [8000]
   }
   container = merge(local.container_defaults, var.container)
 }
