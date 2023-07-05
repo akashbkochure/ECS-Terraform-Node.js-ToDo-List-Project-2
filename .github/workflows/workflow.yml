@@ -9,7 +9,7 @@ env:
   ECR_REPOSITORY: node-registry          # set this to your Amazon ECR repository name
   ECS_SERVICE: node-service                 # set this to your Amazon ECS service name
   ECS_CLUSTER: node-cluster                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: package.json
+  
   CONTAINER_NAME: application           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
@@ -52,20 +52,20 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > package.json
+          aws ecs describe-task-definition --task-definition service --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: $CONTAINER_NAME
+          container-name: application  # edit me
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
           wait-for-service-stability: true
