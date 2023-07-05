@@ -17,8 +17,8 @@ resource "aws_lb_target_group" "group" {
 
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.alb.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = "8000"
+  protocol          = "TCP"
 
   default_action {
     type             = "forward"
