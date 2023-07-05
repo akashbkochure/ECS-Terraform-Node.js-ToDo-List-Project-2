@@ -1,5 +1,5 @@
 container = {
-  image = "particule/helloworld"
+  image = "node"
 }
 
 vpc = {
