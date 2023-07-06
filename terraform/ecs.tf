@@ -4,24 +4,22 @@ resource "aws_ecs_cluster" "cluster" {
 
   default_capacity_provider_strategy {
     capacity_provider = "FARGATE"
-    weight            = "100"
+    weight            = 100
   }
 }
 
 resource "aws_ecs_task_definition" "task" {
-  family = "service"
-  requires_compatibilities = [
-    "FARGATE",
-  ]
-  execution_role_arn = aws_iam_role.fargate.arn
-  network_mode       = "awsvpc"
-  cpu                = 256
-  memory             = 512
-  container_definitions = jsonencode([
+  family                   = "service"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = aws_iam_role.fargate.arn
+  network_mode             = "awsvpc"
+  cpu                      = 256
+  memory                   = 512
+  container_definitions    = jsonencode([
     {
-      name      = local.container.name
-      image     = local.container.image
-      essential = true
+      name         = local.container.name
+      image        = local.container.image
+      essential    = true
       portMappings = [
         for port in local.container.ports :
         {
@@ -49,9 +47,11 @@ resource "aws_ecs_service" "service" {
     container_name   = local.container.name
     container_port   = 8000
   }
+
   deployment_controller {
     type = "ECS"
   }
+
   capacity_provider_strategy {
     base              = 0
     capacity_provider = "FARGATE"
