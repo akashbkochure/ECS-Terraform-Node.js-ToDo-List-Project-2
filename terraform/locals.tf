@@ -1,5 +1,6 @@
 locals {
   region = var.aws_region
+  
   ecr_defaults = {
     repository_name = "node-registry"
   }
@@ -16,8 +17,8 @@ locals {
     internal = false
     target_group = {
       name     = "tf-alb-tg"
-      port     = 8000
-      protocol = "TCP"
+      port     = 80
+      protocol = "HTTP"
     }
   }
   lb = merge(local.lb_defaults, var.lb_values)
