@@ -5,13 +5,11 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: node-registry          # set this to your Amazon ECR repository name
-  ECS_SERVICE: node-service                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: node-cluster                 # set this to your Amazon ECS cluster name
-  
-  CONTAINER_NAME: application           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: node-registry
+  ECS_SERVICE: node-service
+  ECS_CLUSTER: node-cluster
+  CONTAINER_NAME: application
 
 permissions:
   contents: read
@@ -48,7 +46,7 @@ jobs:
           # be deployed to ECS.
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:latest"
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY"
 
       - name: Download task definition
         run: |
@@ -59,8 +57,8 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.CONTAINER_NAME }}   # edit me
-          image: ${{ steps.build-image.outputs.image }}:latest
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
