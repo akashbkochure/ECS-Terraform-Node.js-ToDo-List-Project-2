@@ -1,4 +1,4 @@
-# ECS-Terraform-Project-2-Node.js
+# npm-pm2-Node.js-ECS-Terraform-ToDo-List-Project-2-Steps:
 
 
 sudo apt update && sudo apt upgrade -y
@@ -32,6 +32,9 @@ pm2 monit
 pm2 show app
 
 pm2 env 0
+
+pm2 logs app --lines 100
+
 
 
 
