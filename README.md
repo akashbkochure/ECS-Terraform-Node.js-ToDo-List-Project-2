@@ -1,4 +1,4 @@
-# npm-pm2-Node.js-ECS-Terraform-ToDo-List-Project-2-Steps:
+# npm-pm2-Node.js-ToDo-List-Project-Steps:
 
 
 sudo apt update && sudo apt upgrade -y
