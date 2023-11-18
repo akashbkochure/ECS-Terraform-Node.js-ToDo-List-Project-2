@@ -9,9 +9,9 @@ sudo apt install npm
 
 sudo npm install pm2 -g
 
-git clone https://github.com/akashbkochure/Node.js-ToDo-List-Project-Including-npm-pm2-ECS-Terraform-GitHubActions.git
+git clone https://github.com/akashbkochure/Node.js-ToDo-List-Project-Including-npm-pm2-ECS-Terraform-GitHubActions-Jenkinsfile-Docker.git
 
-cd Node.js-ToDo-List-Project-Including-npm-pm2-ECS-Terraform-GitHubActions
+cd Node.js-ToDo-List-Project-Including-npm-pm2-ECS-Terraform-GitHubActions-Jenkinsfile-Docker
 
 npm install
 
