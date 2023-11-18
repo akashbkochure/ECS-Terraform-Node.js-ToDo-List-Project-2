@@ -9,9 +9,9 @@ sudo apt install npm
 
 sudo npm install pm2 -g
 
-git clone https://github.com/akashbkochure/npm-pm2-Node.js-ECS-Terraform-ToDo-List-Project-2.git
+git clone https://github.com/akashbkochure/Node.js-ToDo-List-Project-Including-npm-pm2-ECS-Terraform-GitHubActions.git
 
-cd npm-pm2-Node.js-ECS-Terraform-ToDo-List-Project-2
+cd Node.js-ToDo-List-Project-Including-npm-pm2-ECS-Terraform-GitHubActions
 
 npm install
 
@@ -34,6 +34,26 @@ pm2 show app
 pm2 env 0
 
 pm2 logs app --lines 100
+
+##############################################################
+
+npm install pm2@latest -g
+
+pm2 start server.js
+
+pm2 start server.js --name <app_name>
+
+pm2 restart app_name
+
+pm2 reload app_name
+
+pm2 stop app_name
+
+pm2 delete app_name
+
+pm2 [list|ls|status]
+
+pm2 logs
 
 ##############################################################
 
